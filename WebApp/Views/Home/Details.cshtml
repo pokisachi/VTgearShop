@@ -1,0 +1,72 @@
+@{
+    ViewData["Title"] = ViewBag.Product.ProductName;
+}
+<div class="container my-4">
+    <div class="row">
+        <!-- Sidebar Danh Mục -->
+        <div class="col-lg-3 mb-4">
+            <h4 class="text-primary">Danh Mục</h4>
+            <ul class="list-group">
+                @foreach (Category item in ViewBag.Categories)
+                {
+                    <li class="list-group-item">
+                        <a href="/home/category/@item.CategoryId" class="text-decoration-none text-dark">
+                            @item.CategoryName
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <!-- Chi Tiết Sản Phẩm -->
+        <div class="col-lg-9">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="card-title h4">@ViewBag.Product.ProductName</h1>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <img class="img-fluid" src="/images/products/@ViewBag.Product.Image" alt="@ViewBag.Product.ProductName" style="max-height: 300px; object-fit: cover;">
+                    </div>
+                    <p class="mb-2 card-text text-success fw-bold">
+                        Giá: <b class="text-success">@String.Format("{0:N0} VNĐ", ViewBag.Product.Price * 1000)</b>, 
+                        Giảm giá: <b class="text-danger">@String.Format("{0:N0} VNĐ", ViewBag.Product.SaleOff * 1000)</b>
+                    </p>
+
+                    <p>Lượt Xem: <b>@ViewBag.Product.Viewed</b></p>
+                    <form action="/cart/add" method="post" class="row g-2">
+                        <input type="hidden" name="productId" value="@ViewBag.Product.ProductId">
+                        <div class="col-md-6">
+                            <input class="form-control" type="number" value="1" min="1" max="10" name="quantity">
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-primary w-100">Thêm vào Giỏ Hàng</button>
+                        </div>
+                    </form>
+                    <div class="mt-4">
+                        <p>@ViewBag.Product.Description</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sản Phẩm Liên Quan -->
+            <h3 class="mb-4">Sản Phẩm Liên Quan</h3>
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <img class="card-img-top img-fluid" src="/images/products/@item.Image" alt="@item.ProductName" style="max-height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title text-truncate">
+                                    <a href="/home/details/@item.ProductId" class="text-decoration-none text-dark">@item.ProductName</a>
+                                </h5>
+                               <p class="card-text text-success fw-bold"> @String.Format("{0:N0} VNĐ", @item.Price * 1000)</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

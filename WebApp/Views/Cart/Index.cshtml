@@ -1,0 +1,47 @@
+@model IEnumerable<Cart>
+<table class="table table-bordered">
+    <thead class="bg-primary">
+        <tr class="text-white">
+            <th>Product</th>
+            <th>Image</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Cammand</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model){
+            <tr v="@item.ProductId">
+                <td>@item.ProductName</td>
+                <td>
+                    <img width="80" src="/images/products/@item.Image" alt="@item.ProductName">
+                </td>
+                <td>@String.Format("{0:N0} VNĐ", @item.Price * 1000)</td>
+                <td>
+                    <input class="qty" type="number" min="1" value="@item.Quantity" max="10">
+                </td>
+                <td>@string.Format("{0:n0} VNĐ", Model.Sum(p => p.Price * p.Quantity * 1000))</td>
+                <td>
+                    <a class="btn btn-outline-primary" href="/cart/delete/@item.ProductId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="text-center">
+    <a href="/cart/checkout" class="btn btn-outline-primary">Mua Ngay</a>
+</div>
+
+@section Scripts{
+    <script>
+        $('.qty').change(function(){
+            let o = {'quantity': $(this).val(), 'productId': $(this).closest('tr').attr('v')};
+            console.log(o);
+
+            $.post('/cart/edit', o, (d) => {
+                window.location.reload();
+            });
+        });
+    </script>
+}

@@ -1,0 +1,30 @@
+@model IEnumerable<Category>
+
+<h2 class="ml-3">Manager Category</h2>
+<a href="/dashboard/category/add" class="btn btn-primary ml-3">Add Category</a>
+<table class="table table-bordered mt-3 ml-3">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>CategoryName</th>
+            <th>CategoryAlias</th>
+            <th>Description</th>
+            <th>Command</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.CategoryId</td>
+                <td>@item.CategoryName</td>
+                <td>@item.CategoryAlias</td>
+                <td>@item.Description</td>
+                <td>
+                    <a href="/dashboard/category/edit/@item.CategoryId" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="/dashboard/category/delete/@item.CategoryId" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this Category?');">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

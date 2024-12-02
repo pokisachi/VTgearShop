@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApp.styles.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Thêm AOS cho hiệu ứng cuộn trang -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container-fluid">
+            <div class="container topbar bg-primary d-none d-lg-block">
+                <div class="d-flex justify-content-between">
+                    <div class="top-info ps-2">
+                        <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">236 Le Van Sy Street, Ho Chi Minh City</a></small>
+                        <small class="me-3"><i class="fas fa-user me-2 text-secondary"></i> <a href="#" class="text-white">Nguyễn Văn Tiến</a></small>
+                        <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">1050080037@sv.hcmunre.edu.vn</a></small>
+                    </div>
+                </div>
+            </div>
+            <div class="container px-0">
+                <nav class="navbar navbar-light bg-white navbar-expand-xl">
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><h1 class="text-primary display-6">VTGrear Shop</h1></a>
+                    <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+                        <div class="navbar-nav mx-auto">
+                            <a class="nav-link nav-item" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            @if(User.Identity != null && User.Identity.IsAuthenticated){
+                                    <a class="nav-link nav-item" asp-area="" asp-controller="auth" asp-action="logout">Logout</a>
+                                    <a class="nav-link nav-item" asp-area="" asp-controller="auth" asp-action="index">@User.Identity.Name</a>
+                            @if(User.IsInRole("Admin")){
+                                    <a class="nav-link nav-item" asp-area="dashboard" asp-controller="home" asp-action="index">Dashboard</a>    
+                            }
+                            }else{
+                                <a class="nav-link nav-item" asp-area="" asp-controller="auth" asp-action="login">Login</a>
+                                <a class="nav-link nav-item" asp-area="" asp-controller="auth" asp-action="register">Register</a>
+                            }
+                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        </div>
+                        <div class="d-flex m-3 me-0">
+                            @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+                            {
+                                <div class="input-group">
+                                    <span class="input-group-text">Tìm Sản Phẩm:</span>
+                                    @Html.TextBox("searchString", ViewContext.HttpContext.Request.Query["searchString"].ToString(), new { @class = "form-control", @placeholder = "Nhập tên sản phẩm hoặc từ khóa..." })
+                                    <button type="submit" class="btn btn-outline-primary hover:scale-105"><i class="bi bi-search text-primary"></i></button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        @* /////////////////////////////////// # #navbarCollaps  *@
+        @* <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">VTGrearShop</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between w-100">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark text-decoration-none hover:text-primary" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark text-decoration-none hover:text-primary" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        @if(User.Identity != null && User.Identity.IsAuthenticated){
+                            <li class="nav-item">
+                                <a class="nav-link text-dark text-decoration-none hover:text-primary" asp-area="" asp-controller="auth" asp-action="logout">Logout</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark text-decoration-none hover:text-primary" asp-area="" asp-controller="auth" asp-action="index">@User.Identity.Name</a>
+                            </li>
+                            @if(User.IsInRole("Admin")){
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark text-decoration-none hover:text-primary" asp-area="dashboard" asp-controller="home" asp-action="index">Dashboard</a>
+                                </li>
+                            }
+                        }else{
+                            <li class="nav-item">
+                                <a class="nav-link text-dark text-decoration-none hover:text-primary" asp-area="" asp-controller="auth" asp-action="login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark text-decoration-none hover:text-primary" asp-area="" asp-controller="auth" asp-action="register">Register</a>
+                            </li>
+                        }  
+                    </ul>
+                    <div class="d-flex justify-content-center mx-4">
+                        @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+                        {
+                            <div class="input-group">
+                                <span class="input-group-text">Tìm Sản Phẩm:</span>
+                                @Html.TextBox("searchString", ViewContext.HttpContext.Request.Query["searchString"].ToString(), new { @class = "form-control", @placeholder = "Nhập tên sản phẩm hoặc từ khóa..." })
+                                <button type="submit" class="btn btn-outline-primary hover:scale-105"><i class="bi bi-search"></i></button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav> *@
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - VTGrear-Shop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- Thêm script AOS để kích hoạt hiệu ứng cuộn trang -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init(); // Khởi tạo AOS
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/lib/easing/easing.min.js"></script>
+    <script src="/lib/waypoints/waypoints.min.js"></script>
+    <script src="/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/js/main.js"></script>
+</body>
+</html>

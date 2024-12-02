@@ -1,0 +1,91 @@
+@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "VTshop";
+}
+
+
+<div class="row g-4">
+    <div class="col-lg-3">
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <div class="mb-3">
+                    <h4>Categories</h4>
+                    <ul class="list-unstyled fruite-categorie list-group">
+                    @foreach (Category item in ViewBag.Categories){
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between fruite-name">
+                                <a href="/home/category/@item.CategoryId">@item.CategoryName</a>
+                            </div>
+                        </li>
+                    }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9">
+        <div class="row g-4 justify-content-center">
+            @foreach (var item in Model){
+            <div class="col-md-6 col-lg-6 col-xl-4">
+                <div class="rounded position-relative fruite-item">
+                    <div class="fruite-img">
+                        <img src="/images/products/@item.Image" class="img-fluid w-100 rounded-top" alt="@item.ProductName">
+                    </div>
+                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                        <h4>
+                            <a href="/home/details/@item.ProductId" class="text-decoration-none">
+                                        @item.ProductName
+                            </a>
+                        </h4>
+                        <div class="d-flex justify-content-between flex-lg-wrap">
+                            <p class="text-dark fs-5 fw-bold mb-0"> @String.Format("{0:N0} VNĐ", @item.Price * 1000)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@* //////////////////////////////////////# #  *@
+@* <div class="container my-4">
+    <div class="row">
+        <div class="col-lg-3 mb-4">
+            <h2 class="h4 text-primary">DANH MỤC</h2>
+            <ul class="list-group">
+                @foreach (Category item in ViewBag.Categories)
+                {
+                    <li class="list-group-item">
+                        <a href="/home/category/@item.CategoryId" class="text-decoration-none text-dark">
+                            @item.CategoryName
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div class="col-lg-9">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <img src="/images/products/@item.Image" class="card-img-top img-fluid" alt="@item.ProductName">
+                            <div class="card-body">
+                                <h5 class="card-title text-truncate">
+                                    <a href="/home/details/@item.ProductId" class="text-decoration-none">
+                                        @item.ProductName
+                                    </a>
+                                </h5>
+                                <p class="card-text text-success fw-bold"> @String.Format("{0:N0} VNĐ", @item.Price * 1000)</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div> *@

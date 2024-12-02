@@ -1,0 +1,47 @@
+@model IEnumerable<Supplier>
+    
+
+<table class="table table-striped">
+    <tr>
+        <th>Id</th>
+        <th>CompanyName</th>
+        <th>Logo</th>
+        <th>ContactName</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Description</th>
+        <th>Comand</th>
+
+
+@* // [SupplierId] [varchar](10) NOT NULL,
+// 	[CompanyName] [nvarchar](64) NOT NULL,
+// 	[Logo] [VARCHAR](32) NOT NULL,
+// 	[ContactName] [nvarchar](64) NULL,
+// 	[Email] [nvarchar](64) NOT NULL,
+// 	[Phone] [nvarchar](16) NULL,
+// 	[Address] [nvarchar](64) NULL,
+// 	[Description] [nvarchar] *@
+        
+       
+    </tr>
+    @foreach(var item in Model){
+        <tr>
+            <td>@item.SupplierId</td>
+            <td>@item.CompanyName</td>
+            <td>@item.Logo</td>
+            <td>@item.ContactName</td>
+            <td>@item.Email</td>
+            <td>@item.Phone</td>
+            <td>@item.Address</td>
+            <td>@item.Description</td>
+            
+            
+            <td>
+                <a class="btn btn-outline-primary" href="/customer/add">ADD</a>
+                <a class="btn btn-outline-primary" href="/customer/delete/@item.SupplierId">Delete</a>
+                <a class="btn btn-outline-primary" href="/customer/edit/@item.SupplierId">Edit</a>
+            </td>
+        </tr>
+    }
+</table>

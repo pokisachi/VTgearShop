@@ -1,0 +1,164 @@
+@* @model IEnumerable<Cart>
+<div class="row">
+    <div class="row-7">
+        <form method="post">
+            <div class="row mb-1">
+                <label class="col-2 form label" for="">Fullname</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" name="fullname">
+                </div>
+            </div>
+            <div class="row mb-1">
+                <label class="col-2 form label" for="">Email</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" name="email">
+                </div>
+            </div>
+            <div class="row mb-1">
+                <label class="col-2 form label" for="">Phone</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" name="phone">
+                </div>
+            </div>
+            <div class="row mb-1">
+                <label class="col-2 form label" for="">Address</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" name="address">
+                </div>
+            </div>
+            
+            <div>
+                <button class="btn btn-primary">Confirm Checkout</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-5">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model){
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.Price</td>    
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">@Model.Sum(p => p.Price * p.Quantity) </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+ *@
+
+@model IEnumerable<Cart>
+<div class="row">
+    <div class="row-7">
+        <form method="post" onsubmit="return validateForm()">
+            <div class="row mb-1">
+                <label class="col-2 form label" for="fullname">Fullname</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" id="fullname" name="fullname">
+                    <small class="text-danger d-none" id="fullnameError">Fullname is required</small>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <label class="col-2 form label" for="email">Email</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" id="email" name="email">
+                    <small class="text-danger d-none" id="emailError">Email is required</small>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <label class="col-2 form label" for="phone">Phone</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" id="phone" name="phone">
+                    <small class="text-danger d-none" id="phoneError">Phone is required</small>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <label class="col-2 form label" for="address">Address</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" id="address" name="address">
+                    <small class="text-danger d-none" id="addressError">Address is required</small>
+                </div>
+            </div>
+            
+            <div>
+                <button class="btn bg-primary text-white m-5" type="submit">Confirm Checkout</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-5">
+        <table class="table table-bordered">
+            <thead class="bg-primary">
+                <tr class="text-white">
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@String.Format("{0:N0} VNĐ", @item.Price * 1000)</td>
+                        <td>@string.Format("{0:n0} VNĐ", Model.Sum(p => p.Price * p.Quantity * 1000))</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function validateForm() {
+        let isValid = true;
+
+        // Lấy các giá trị từ các trường
+        const fullname = document.getElementById("fullname").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const address = document.getElementById("address").value.trim();
+
+        // Kiểm tra từng trường
+        if (!fullname) {
+            isValid = false;
+            document.getElementById("fullnameError").classList.remove("d-none");
+        } else {
+            document.getElementById("fullnameError").classList.add("d-none");
+        }
+
+        if (!email) {
+            isValid = false;
+            document.getElementById("emailError").classList.remove("d-none");
+        } else {
+            document.getElementById("emailError").classList.add("d-none");
+        }
+
+        if (!phone) {
+            isValid = false;
+            document.getElementById("phoneError").classList.remove("d-none");
+        } else {
+            document.getElementById("phoneError").classList.add("d-none");
+        }
+
+        if (!address) {
+            isValid = false;
+            document.getElementById("addressError").classList.remove("d-none");
+        } else {
+            document.getElementById("addressError").classList.add("d-none");
+        }
+
+        // Chỉ gửi form nếu tất cả các trường hợp lệ
+        return isValid;
+    }
+</script>
